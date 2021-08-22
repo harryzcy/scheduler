@@ -4,20 +4,28 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 var (
 	tasks []Task
 
-	cacheDir      = "/usr/local/ProgramCache/scheduler"
-	cacheJSONFile = cacheDir + "/tasks.json"
+	cacheDir      string
+	cacheJSONFile string
 )
 
 func init() {
 	tasks = make([]Task, 0)
 
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+	cacheDir = filepath.Join(homeDir, "ProgramCache", "scheduler")
+	cacheJSONFile = filepath.Join(cacheDir, "tasks.json")
+
 	// create cache directory if not exists
-	err := os.MkdirAll(cacheDir, os.ModePerm)
+	err = os.MkdirAll(cacheDir, os.ModePerm)
 	if err != nil {
 		log.Fatalln(err)
 	}
