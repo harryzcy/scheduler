@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "github.com/harryzcy/scheduler/internal/messenger/messenger";
+
+package messenger;
+
+service Messenger {
+  rpc ListTasks(Empty) returns (stream Task) {}
+  rpc AddTask(Task) returns (Empty) {}
+  rpc RemoveTask(Task) returns (Empty) {}
+  rpc RemoveAllTasks(Empty) returns (Empty) {}
+}
+
+message Empty {}
+
+message Task {
+  string name = 1;
+  string command = 2;
+  string schedule = 3;
+  bool once = 4;
+}
