@@ -33,7 +33,7 @@ func runCommand(command string) {
 	log.Printf("combined out:\n%s\n", string(out))
 }
 
-func RunInitialSetup(tasks []Task) {
+func runInitialSetup(tasks []Task) {
 	for _, task := range tasks {
 		cronRunner.AddFunc(task.Schedule, func() {
 			runCommand(task.Command)
@@ -41,7 +41,7 @@ func RunInitialSetup(tasks []Task) {
 	}
 }
 
-func RunAdditionalTask(task Task) {
+func runAdditionalTask(task Task) {
 	cronRunner.AddFunc(task.Schedule, func() {
 		runCommand(task.Command)
 	})

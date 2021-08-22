@@ -64,7 +64,11 @@ func StoreTasks() error {
 	return nil
 }
 
+func StartTasks() {
+	runInitialSetup(tasks)
+}
+
 func AddTask(task Task) {
 	tasks = append(tasks, task)
-	RunAdditionalTask(task)
+	runAdditionalTask(task)
 }
