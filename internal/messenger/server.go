@@ -35,7 +35,7 @@ func (s *server) RemoveAllTasks(ctx context.Context, in *pb.Empty) (*pb.Empty, e
 	return &pb.Empty{}, nil
 }
 
-func Start() {
+func StartServer() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
