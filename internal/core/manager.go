@@ -65,10 +65,10 @@ func StoreTasks() error {
 }
 
 func StartTasks() {
-	runInitialSetup(tasks)
+	setupTasks(tasks)
 }
 
 func AddTask(task Task) {
 	tasks = append(tasks, task)
-	runAdditionalTask(task)
+	addTask(task)
 }
