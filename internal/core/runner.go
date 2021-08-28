@@ -46,3 +46,7 @@ func addTask(task Task) {
 		runCommand(task.Command)
 	})
 }
+
+func run() {
+	cronRunner.Run()
+}

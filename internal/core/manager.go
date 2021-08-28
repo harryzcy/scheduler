@@ -66,6 +66,7 @@ func StoreTasks() error {
 
 func StartTasks() {
 	setupTasks(tasks)
+	run()
 }
 
 func AddTask(task Task) {
