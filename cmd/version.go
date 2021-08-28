@@ -12,7 +12,7 @@ func init() {
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Print the version number.",
+	Short: "Print the version number",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Generator v0.0")
 	},
