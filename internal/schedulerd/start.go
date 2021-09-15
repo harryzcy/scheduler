@@ -28,7 +28,7 @@ func Start() {
 		PidFilePerm: 0644,
 		LogFileName: logFileName,
 		LogFilePerm: 0640,
-		WorkDir:     "./",
+		WorkDir:     core.GetCacheDir(),
 		Umask:       027,
 		Args:        []string{"[schedulerd]"},
 	}

@@ -31,6 +31,11 @@ func init() {
 	}
 }
 
+// GetCacheDir returns the directory that stores all caches
+func GetCacheDir() string {
+	return cacheDir
+}
+
 func LoadTasks() error {
 	data, err := os.ReadFile(cacheJSONFile)
 	if err != nil {
