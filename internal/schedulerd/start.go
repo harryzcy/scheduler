@@ -2,6 +2,7 @@ package schedulerd
 
 import (
 	"log"
+	"path/filepath"
 
 	"github.com/harryzcy/scheduler/internal/core"
 	"github.com/harryzcy/scheduler/internal/messenger"
@@ -24,9 +25,9 @@ func start() {
 // Start runs the function in a daemon process
 func Start() {
 	cntxt := &daemon.Context{
-		PidFileName: pidFileName,
+		PidFileName: filepath.Join(core.GetCacheDir(), pidFileName),
 		PidFilePerm: 0644,
-		LogFileName: logFileName,
+		LogFileName: filepath.Join(core.GetCacheDir(), logFileName),
 		LogFilePerm: 0640,
 		WorkDir:     core.GetCacheDir(),
 		Umask:       027,
