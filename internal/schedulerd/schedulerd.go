@@ -8,6 +8,11 @@ import (
 	"github.com/sevlyar/go-daemon"
 )
 
+var (
+	pidFileName = "schedulerd.pid"
+	logFileName = "schedulerd.log"
+)
+
 // start initiates cron runner and starts a server
 func start() {
 	core.LoadTasks()
@@ -19,9 +24,9 @@ func start() {
 // Start runs the function in a daemon process
 func Start() {
 	cntxt := &daemon.Context{
-		PidFileName: "schedulerd.pid",
+		PidFileName: pidFileName,
 		PidFilePerm: 0644,
-		LogFileName: "schedulerd.log",
+		LogFileName: logFileName,
 		LogFilePerm: 0640,
 		WorkDir:     "./",
 		Umask:       027,
