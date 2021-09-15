@@ -4,6 +4,9 @@ import (
 	"context"
 	"log"
 	"net"
+	"os"
+	"os/signal"
+	"syscall"
 
 	pb "github.com/harryzcy/scheduler/internal/messenger/messenger"
 	"google.golang.org/grpc"
@@ -42,8 +45,23 @@ func StartServer() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterMessengerServer(s, &server{})
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("failed to serve: %v", err)
+		}
+	}()
+
 	log.Printf("server listening at %v", lis.Addr())
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+
+	<-sig
+	log.Print("server stopping gracefully...")
+
+	s.GracefulStop()
+
+	log.Print("server existed properly")
+
 }
