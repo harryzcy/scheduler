@@ -2,12 +2,14 @@ package messenger
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/harryzcy/scheduler/internal/core"
 	pb "github.com/harryzcy/scheduler/internal/messenger/messenger"
 	"google.golang.org/grpc"
 )
@@ -26,7 +28,16 @@ func (s *server) ListTasks(in *pb.Empty, stream pb.Messenger_ListTasksServer) er
 }
 
 func (s *server) AddTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
-	log.Printf("Received: %v", in.GetName())
+	task := core.Task{
+		Name:     in.GetName(),
+		Command:  in.GetCommand(),
+		Schedule: in.GetSchedule(),
+		Once:     in.GetOnce(),
+	}
+
+	fmt.Println(task)
+
+	core.AddTask(task)
 	return &pb.Empty{}, nil
 }
 
