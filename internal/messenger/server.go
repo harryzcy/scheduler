@@ -131,4 +131,6 @@ func StartServer() {
 
 	log.Print("server existed properly")
 
+	core.StoreTasks()
+
 }
