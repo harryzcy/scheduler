@@ -74,7 +74,8 @@ func StartTasks() {
 	run()
 }
 
-func AddTask(task *Task) {
+func AddTask(task *Task) error {
 	tasks = append(tasks, task)
-	addTask(task)
+	err := addTask(task)
+	return err
 }

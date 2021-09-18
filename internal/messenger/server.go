@@ -34,8 +34,8 @@ func (s *server) AddTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
 		Once:     in.GetOnce(),
 	}
 
-	core.AddTask(task)
-	return &pb.Empty{}, nil
+	err := core.AddTask(task)
+	return &pb.Empty{}, err
 }
 
 func (s *server) RemoveTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
