@@ -1,6 +1,8 @@
 package core
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"os/exec"
 	"strings"
@@ -33,18 +35,28 @@ func runCommand(command string) {
 	log.Printf("combined out:\n%s\n", string(out))
 }
 
-func setupTasks(tasks []Task) {
+func setupTasks(tasks []*Task) error {
+	var multierror []string
+
 	for _, task := range tasks {
-		cronRunner.AddFunc(task.Schedule, func() {
+		id, err := cronRunner.AddFunc(task.Schedule, func() {
 			runCommand(task.Command)
 		})
+		task.ID = int(id)
+		if err != nil {
+			multierror = append(multierror, fmt.Sprintf("failed to add task `%s`: %v", task.Name, err))
+		}
 	}
+
+	return errors.New(strings.Join(multierror, ", "))
 }
 
-func addTask(task Task) {
-	cronRunner.AddFunc(task.Schedule, func() {
+func addTask(task *Task) error {
+	id, err := cronRunner.AddFunc(task.Schedule, func() {
 		runCommand(task.Command)
 	})
+	task.ID = int(id)
+	return err
 }
 
 func run() {

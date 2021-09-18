@@ -8,14 +8,14 @@ import (
 )
 
 var (
-	tasks []Task
+	tasks []*Task
 
 	cacheDir      string
 	cacheJSONFile string
 )
 
 func init() {
-	tasks = make([]Task, 0)
+	tasks = make([]*Task, 0)
 
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -74,7 +74,7 @@ func StartTasks() {
 	run()
 }
 
-func AddTask(task Task) {
+func AddTask(task *Task) {
 	tasks = append(tasks, task)
 	addTask(task)
 }

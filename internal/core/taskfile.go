@@ -1,5 +1,5 @@
 package core
 
 type TaskFile struct {
-	Tasks []Task `json:"tasks"`
+	Tasks []*Task `json:"tasks"`
 }

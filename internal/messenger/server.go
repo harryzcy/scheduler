@@ -2,7 +2,6 @@ package messenger
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -28,14 +27,12 @@ func (s *server) ListTasks(in *pb.Empty, stream pb.Messenger_ListTasksServer) er
 }
 
 func (s *server) AddTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
-	task := core.Task{
+	task := &core.Task{
 		Name:     in.GetName(),
 		Command:  in.GetCommand(),
 		Schedule: in.GetSchedule(),
 		Once:     in.GetOnce(),
 	}
-
-	fmt.Println(task)
 
 	core.AddTask(task)
 	return &pb.Empty{}, nil
