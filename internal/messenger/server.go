@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 
 	"github.com/harryzcy/scheduler/internal/core"
@@ -22,6 +23,34 @@ type server struct {
 }
 
 func (s *server) ListTasks(in *pb.Empty, stream pb.Messenger_ListTasksServer) error {
+	log.Printf("received request ListTasks\n")
+
+	tasks, _ := core.ListTasks()
+
+	var wg sync.WaitGroup
+	for i, task := range tasks {
+		wg.Add(1)
+
+		t := &pb.Task{
+			Name:     task.Name,
+			Command:  task.Command,
+			Schedule: task.Schedule,
+			Once:     task.Once,
+		}
+
+		go func(count int, task *pb.Task) {
+			defer wg.Done()
+			err := stream.Send(task)
+
+			if err == nil {
+				log.Printf("sent response %d for ListTasks\n", count)
+			} else {
+				log.Printf("sending response %d for ListTasks failed\n", count)
+			}
+		}(i, t)
+	}
+	wg.Wait()
+	log.Println("request ListTasks completed successfully")
 
 	return nil
 }

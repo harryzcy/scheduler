@@ -79,3 +79,8 @@ func AddTask(task *Task) error {
 	err := addTask(task)
 	return err
 }
+
+// ListTasks returns all tasks that are running, the error is currently always nil
+func ListTasks() ([]*Task, error) {
+	return tasks, nil
+}
