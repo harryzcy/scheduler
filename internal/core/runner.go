@@ -36,7 +36,7 @@ func runCommand(command string) {
 	log.Printf("combined out:\n%s\n", string(out))
 }
 
-func setupTasks(tasks []*Task) error {
+func setupTasks(tasks map[string]*Task) error {
 	var multierror []string
 
 	for _, task := range tasks {

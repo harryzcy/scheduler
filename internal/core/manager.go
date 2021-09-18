@@ -9,14 +9,14 @@ import (
 )
 
 var (
-	tasks []*Task
+	tasks map[string]*Task
 
 	cacheDir      string
 	cacheJSONFile string
 )
 
 func init() {
-	tasks = make([]*Task, 0)
+	tasks = make(map[string]*Task)
 
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -75,22 +75,32 @@ func StartTasks() {
 	run()
 }
 
+func existsTaskName(name string) bool {
+	if _, ok := tasks[name]; ok {
+		return true
+	}
+	return false
+}
+
 func AddTask(task *Task) error {
-	tasks = append(tasks, task)
+	if existsTaskName(task.Name) {
+		return fmt.Errorf("task with name %s already exists", task.Name)
+	}
+
+	tasks[task.Name] = task
 	err := addTask(task)
 	return err
 }
 
 // ListTasks returns all tasks that are running, the error is currently always nil
-func ListTasks() ([]*Task, error) {
+func ListTasks() (map[string]*Task, error) {
 	return tasks, nil
 }
 
 func RemoveTask(name string) error {
 	exist := false
-	var i int
 	var task *Task
-	for i, task = range tasks {
+	for _, task = range tasks {
 		if name == task.Name {
 			exist = true
 			break
@@ -102,13 +112,7 @@ func RemoveTask(name string) error {
 	}
 
 	removeTask(task)
-
-	// remove the task at index i
-	// since order does not matter here, we replace the element to delete with the one at the end
-	if len(tasks) > 1 {
-		tasks[i] = tasks[len(tasks)-1]
-	}
-	tasks = tasks[:len(tasks)-1]
+	delete(tasks, task.Name)
 
 	return nil
 }
@@ -117,5 +121,5 @@ func RemoveAllTasks() {
 	for _, task := range tasks {
 		removeTask(task)
 	}
-	tasks = nil
+	tasks = make(map[string]*Task)
 }

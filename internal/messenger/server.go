@@ -28,7 +28,8 @@ func (s *server) ListTasks(in *pb.Empty, stream pb.Messenger_ListTasksServer) er
 	tasks, _ := core.ListTasks()
 
 	var wg sync.WaitGroup
-	for i, task := range tasks {
+	idx := 1
+	for _, task := range tasks {
 		wg.Add(1)
 
 		t := &pb.Task{
@@ -47,7 +48,9 @@ func (s *server) ListTasks(in *pb.Empty, stream pb.Messenger_ListTasksServer) er
 			} else {
 				log.Printf("sending response %d for ListTasks failed\n", count)
 			}
-		}(i, t)
+		}(idx, t)
+
+		idx++
 	}
 	wg.Wait()
 	log.Println("request ListTasks completed successfully")
