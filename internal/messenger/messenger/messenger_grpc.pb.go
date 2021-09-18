@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type MessengerClient interface {
 	ListTasks(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Messenger_ListTasksClient, error)
 	AddTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*Empty, error)
-	RemoveTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*Empty, error)
+	RemoveTask(ctx context.Context, in *RemoveTaskRequest, opts ...grpc.CallOption) (*Empty, error)
 	RemoveAllTasks(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Empty, error)
 }
 
@@ -73,7 +73,7 @@ func (c *messengerClient) AddTask(ctx context.Context, in *Task, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *messengerClient) RemoveTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*Empty, error) {
+func (c *messengerClient) RemoveTask(ctx context.Context, in *RemoveTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/messenger.Messenger/RemoveTask", in, out, opts...)
 	if err != nil {
@@ -97,7 +97,7 @@ func (c *messengerClient) RemoveAllTasks(ctx context.Context, in *Empty, opts ..
 type MessengerServer interface {
 	ListTasks(*Empty, Messenger_ListTasksServer) error
 	AddTask(context.Context, *Task) (*Empty, error)
-	RemoveTask(context.Context, *Task) (*Empty, error)
+	RemoveTask(context.Context, *RemoveTaskRequest) (*Empty, error)
 	RemoveAllTasks(context.Context, *Empty) (*Empty, error)
 	mustEmbedUnimplementedMessengerServer()
 }
@@ -112,7 +112,7 @@ func (UnimplementedMessengerServer) ListTasks(*Empty, Messenger_ListTasksServer)
 func (UnimplementedMessengerServer) AddTask(context.Context, *Task) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddTask not implemented")
 }
-func (UnimplementedMessengerServer) RemoveTask(context.Context, *Task) (*Empty, error) {
+func (UnimplementedMessengerServer) RemoveTask(context.Context, *RemoveTaskRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveTask not implemented")
 }
 func (UnimplementedMessengerServer) RemoveAllTasks(context.Context, *Empty) (*Empty, error) {
@@ -171,7 +171,7 @@ func _Messenger_AddTask_Handler(srv interface{}, ctx context.Context, dec func(i
 }
 
 func _Messenger_RemoveTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Task)
+	in := new(RemoveTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -183,7 +183,7 @@ func _Messenger_RemoveTask_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/messenger.Messenger/RemoveTask",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessengerServer).RemoveTask(ctx, req.(*Task))
+		return srv.(MessengerServer).RemoveTask(ctx, req.(*RemoveTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

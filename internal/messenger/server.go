@@ -78,8 +78,18 @@ func (s *server) AddTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
 	return &pb.Empty{}, err
 }
 
-func (s *server) RemoveTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
-	return &pb.Empty{}, nil
+func (s *server) RemoveTask(ctx context.Context, in *pb.RemoveTaskRequest) (*pb.Empty, error) {
+	log.Printf("received request RemoveTask - name: %s\n", in.GetName())
+
+	err := core.RemoveTask(in.GetName())
+
+	if err == nil {
+		log.Printf("request RemoveTask completed successfully - name: %s\n", in.GetName())
+	} else {
+		log.Printf("request RemoveTask failed - name: %s, error: %s\n", in.GetName(), err)
+	}
+
+	return &pb.Empty{}, err
 }
 
 func (s *server) RemoveAllTasks(ctx context.Context, in *pb.Empty) (*pb.Empty, error) {

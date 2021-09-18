@@ -72,3 +72,23 @@ func AddTask(name, command, schedule string, once bool) {
 		log.Fatalf("failed to add the task: %v", err)
 	}
 }
+
+func RemoveTask(name string) {
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("failed to connect: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewMessengerClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	req := &pb.RemoveTaskRequest{
+		Name: name,
+	}
+	_, err = c.RemoveTask(ctx, req)
+	if err != nil {
+		log.Fatalf("failed to add the task: %v", err)
+	}
+}

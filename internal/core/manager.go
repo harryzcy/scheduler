@@ -2,6 +2,7 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -83,4 +84,31 @@ func AddTask(task *Task) error {
 // ListTasks returns all tasks that are running, the error is currently always nil
 func ListTasks() ([]*Task, error) {
 	return tasks, nil
+}
+
+func RemoveTask(name string) error {
+	exist := false
+	var i int
+	var task *Task
+	for i, task = range tasks {
+		if name == task.Name {
+			exist = true
+			break
+		}
+	}
+
+	if !exist {
+		return fmt.Errorf("task with name %s does not exist", name)
+	}
+
+	removeTask(task)
+
+	// remove the task at index i
+	// since order does not matter here, we replace the element to delete with the one at the end
+	if len(tasks) > 1 {
+		tasks[i] = tasks[len(tasks)-1]
+	}
+	tasks = tasks[:len(tasks)-1]
+
+	return nil
 }

@@ -59,6 +59,10 @@ func addTask(task *Task) error {
 	return err
 }
 
+func removeTask(task *Task) {
+	cronRunner.Remove(cron.EntryID(task.ID))
+}
+
 func run() {
 	cronRunner.Start()
 }

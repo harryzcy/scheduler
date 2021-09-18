@@ -7,7 +7,7 @@ package messenger;
 service Messenger {
   rpc ListTasks(Empty) returns (stream Task) {}
   rpc AddTask(Task) returns (Empty) {}
-  rpc RemoveTask(Task) returns (Empty) {}
+  rpc RemoveTask(RemoveTaskRequest) returns (Empty) {}
   rpc RemoveAllTasks(Empty) returns (Empty) {}
 }
 
@@ -18,4 +18,8 @@ message Task {
   string command = 2;
   string schedule = 3;
   bool once = 4;
+}
+
+message RemoveTaskRequest {
+  string name = 1;
 }
