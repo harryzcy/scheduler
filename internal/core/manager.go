@@ -112,3 +112,10 @@ func RemoveTask(name string) error {
 
 	return nil
 }
+
+func RemoveAllTasks() {
+	for _, task := range tasks {
+		removeTask(task)
+	}
+	tasks = nil
+}

@@ -92,3 +92,20 @@ func RemoveTask(name string) {
 		log.Fatalf("failed to remove the task: %v", err)
 	}
 }
+
+func RemoveAllTasks() {
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("failed to connect: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewMessengerClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	_, err = c.RemoveAllTasks(ctx, &pb.Empty{})
+	if err != nil {
+		log.Fatalf("failed to add the task: %v", err)
+	}
+}

@@ -93,6 +93,12 @@ func (s *server) RemoveTask(ctx context.Context, in *pb.RemoveTaskRequest) (*pb.
 }
 
 func (s *server) RemoveAllTasks(ctx context.Context, in *pb.Empty) (*pb.Empty, error) {
+	log.Printf("received request RemoveAllTasks\n")
+
+	core.RemoveAllTasks()
+
+	log.Printf("request RemoveAllTasks completed successfully\n")
+
 	return &pb.Empty{}, nil
 }
 
