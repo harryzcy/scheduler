@@ -30,14 +30,17 @@ var taskAddCmd = &cobra.Command{
 		if name == "" {
 			fmt.Println("Error: missing flag: --name, -n")
 			cmd.Usage()
+			return
 		}
 		if command == "" {
 			fmt.Println("Error: missing flag: --command, -c")
 			cmd.Usage()
+			return
 		}
 		if schedule == "" {
 			fmt.Println("Error: missing flag: --schedule, -s")
 			cmd.Usage()
+			return
 		}
 
 		messenger.AddTask(name, command, schedule, once)
