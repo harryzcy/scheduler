@@ -30,7 +30,8 @@ func runCommand(command string) {
 	out, err := cmd.CombinedOutput()
 	log.Println("finish running command:", command)
 	if err != nil {
-		log.Fatalf("cmd.Run() failed with %s\n", err)
+		log.Printf("cmd.Run() failed with %s\n", err)
+		return
 	}
 	log.Printf("combined out:\n%s\n", string(out))
 }
