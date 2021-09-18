@@ -89,6 +89,6 @@ func RemoveTask(name string) {
 	}
 	_, err = c.RemoveTask(ctx, req)
 	if err != nil {
-		log.Fatalf("failed to add the task: %v", err)
+		log.Fatalf("failed to remove the task: %v", err)
 	}
 }
