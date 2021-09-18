@@ -43,7 +43,7 @@ func ListTask() {
 			if err != nil {
 				log.Fatalf("cannot receive %v", err)
 			}
-			fmt.Printf("%s %s %s %t", resp.GetName(), resp.GetCommand(), resp.GetSchedule(), resp.GetOnce())
+			fmt.Printf("%s %s %s %t\n", resp.GetName(), resp.GetCommand(), resp.GetSchedule(), resp.GetOnce())
 		}
 	}()
 
