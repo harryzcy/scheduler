@@ -34,7 +34,18 @@ func (s *server) AddTask(ctx context.Context, in *pb.Task) (*pb.Empty, error) {
 		Once:     in.GetOnce(),
 	}
 
+	log.Printf("received request AddTask - name: %s, command: %s, schedule: %s, once: %t\n",
+		task.Name, task.Command, task.Schedule, task.Once,
+	)
+
 	err := core.AddTask(task)
+
+	if err == nil {
+		log.Printf("request AddTask completed successfully - name: %s\n", task.Name)
+	} else {
+		log.Printf("request AddTask failed - name: %s, error: %s\n", task.Name, err)
+	}
+
 	return &pb.Empty{}, err
 }
 
