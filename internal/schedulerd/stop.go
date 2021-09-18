@@ -2,22 +2,12 @@ package schedulerd
 
 import (
 	"os"
-	"path/filepath"
-	"strconv"
 	"syscall"
-
-	"github.com/harryzcy/scheduler/internal/core"
 )
 
 // Stop the schedulerd server
 func Stop() error {
-	filename := filepath.Join(core.GetCacheDir(), pidFileName)
-	raw, err := os.ReadFile(filename)
-	if err != nil {
-		return err
-	}
-
-	pid, err := strconv.Atoi(string(raw))
+	pid, err := getPID()
 	if err != nil {
 		return err
 	}
