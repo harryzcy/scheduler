@@ -7,7 +7,7 @@ require (
 	github.com/sevlyar/go-daemon v0.1.6
 	github.com/spf13/cobra v1.6.1
 	google.golang.org/grpc v1.56.3
-	google.golang.org/protobuf v1.30.0
+	google.golang.org/protobuf v1.33.0
 )
 
 require (
